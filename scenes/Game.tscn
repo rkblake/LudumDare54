@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/Game.gd" type="Script" id=4]
+[ext_resource path="res://scenes/BulletSpawner.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Enemy.tscn" type="PackedScene" id=6]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
@@ -31,6 +34,8 @@ points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
 0/z_index = 0
 
 [node name="Game" type="Node2D"]
+script = ExtResource( 4 )
+enemies = [ ExtResource( 6 ) ]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 2 )
@@ -47,3 +52,40 @@ drag_margin_v_enabled = true
 smoothing_enabled = true
 
 [node name="HUD" parent="." instance=ExtResource( 3 )]
+
+[node name="Label" type="Label" parent="HUD"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -321.0
+margin_top = -64.0
+margin_right = -148.0
+margin_bottom = -50.0
+rect_scale = Vector2( 4, 4 )
+text = "Level Regenerating In ..."
+align = 1
+valign = 1
+uppercase = true
+
+[node name="TopLeft" type="Position2D" parent="."]
+position = Vector2( -69, 0 )
+
+[node name="BottomRight" type="Position2D" parent="."]
+position = Vector2( 1220, 709 )
+
+[node name="PlayerBulletSpawner" parent="." instance=ExtResource( 5 )]
+frames = [ ExtResource( 1 ) ]
+spawner_path = NodePath("../Player")
+layer = 8
+
+[node name="EnemyBulletSpawner" parent="." instance=ExtResource( 5 )]
+frames = [ ExtResource( 1 ) ]
+layer = 16
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="shoot_bullet" from="Player" to="." method="_on_Player_shoot_bullet"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
