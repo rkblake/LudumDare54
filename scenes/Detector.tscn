@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/Detector.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 43.0
+radius = 36.0
 
 [node name="Detector" type="Area2D" groups=["BulletDestroyer"]]
 script = ExtResource( 1 )

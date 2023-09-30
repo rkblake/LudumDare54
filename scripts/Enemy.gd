@@ -13,13 +13,16 @@ func _physics_process(_delta):
 	var direction := player.global_position - global_position
 	velocity = move_and_slide(direction.normalized() * speed)
 
-func hit() -> void:
-	health -= 1
-	if health <= 0:
-		queue_free()
-
 func _on_ShootTimer_timeout():
+	shoot()
+
+func shoot() -> void:
 	emit_signal('shoot_bullet', Vector2(player.global_position - global_position).rotated(randf()*0.2-0.1), global_position)
 
 func _on_Detector_hit():
 	hit()
+
+func hit() -> void:
+	health -= 1
+	if health <= 0:
+		queue_free()

@@ -68,23 +68,27 @@ func _draw() -> void:
 			bullet.animation_lifetime = 0.0
 			if bullet.image_offset >= max_images:
 				bullet.image_offset = 0
+		draw_set_transform(bullet.current_position - offset, bullet.movement_vector.angle() + PI/2 + bullet.spin, Vector2(4,4))
 		draw_texture(
 			frames[bullet.image_offset], 
-			bullet.current_position - offset
+			Vector2(-8,-8)
 		)
+		bullet.spin += PI * bullet.angular_velocity * get_process_delta_time()
 
 # ================================= Public ================================== #
 
 # Bullets outside these bounds will be deleted
 func set_bounding_box(box: Rect2) -> void:
 	bounding_box = box
+	Physics2DServer.area_set_collision_layer(shared_area.get_rid(), layer)
 
 # Register a new bullet in the array with the optimization logic
-func spawn_bullet(i_movement: Vector2, pos: Vector2 = Vector2.ZERO, speed := 200) -> void:
+func spawn_bullet(i_movement: Vector2, pos: Vector2 = Vector2.ZERO, speed := 200, angular_velocity := 0) -> void:
 	
 	var bullet : Bullet = Bullet.new()
 	bullet.movement_vector = i_movement
 	bullet.speed = speed
+	bullet.angular_velocity = angular_velocity
 #	bullet.current_position  = origin.position
 	if pos == Vector2.ZERO:
 		bullet.current_position = spawner.position
@@ -105,9 +109,7 @@ func _configure_collision_for_bullet(bullet: Bullet) -> void:
 	# Create the shape
 	var _circle_shape = Physics2DServer.circle_shape_create()
 	Physics2DServer.shape_set_data(_circle_shape, 8)
-	Physics2DServer.area_set_collision_layer(shared_area.get_rid(), layer)
 	
-
 	# Add the shape to the shared area
 	Physics2DServer.area_add_shape(
 		shared_area.get_rid(), _circle_shape, used_transform
@@ -115,8 +117,3 @@ func _configure_collision_for_bullet(bullet: Bullet) -> void:
 	
 	# Register the generated id to the bullet
 	bullet.shape_id = _circle_shape
-
-#func add_collidable(shape: RID) -> void:
-#	var _circle_shape = Physics2DServer.circle_shape_create()
-#	Physics2DServer.area_add_shape(
-#		shape, _circle_shape

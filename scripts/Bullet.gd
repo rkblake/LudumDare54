@@ -9,3 +9,5 @@ var animation_lifetime : float = 0.0
 var image_offset : int = 0
 var layer : String = "front"
 var speed: float
+var spin: float
+var angular_velocity: float

@@ -19,11 +19,11 @@ func _ready():
 	enemy_bullet_spawner.set_bounding_box(boundary_rect)
 
 func _on_Player_shoot_bullet(direction: Vector2):
-	player_bullet_spawner.spawn_bullet(direction)
+	player_bullet_spawner.spawn_bullet(direction, Vector2.ZERO, 200, 0)
 
 
 func _on_enemy_shoot_bullet(direction: Vector2, position: Vector2) -> void:
-	enemy_bullet_spawner.spawn_bullet(direction, position)
+	enemy_bullet_spawner.spawn_bullet(direction, position, 150, 3)
 
 
 func _on_SpawnTimer_timeout():
@@ -33,3 +33,7 @@ func _on_SpawnTimer_timeout():
 	enemy.player = player
 	enemy.connect("shoot_bullet", self, "_on_enemy_shoot_bullet")
 	add_child(enemy)
+
+
+func _on_GlitchTimer_timeout():
+	pass # TODO: move glitch
