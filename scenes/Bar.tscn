@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://materials/bar.gdshader" type="Shader" id=1]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 1 )
+shader_param/amount = 1.0
+shader_param/color = Color( 1, 1, 1, 1 )
+
+[node name="Bar" type="ColorRect"]
+material = SubResource( 2 )
+margin_top = 1.0
+margin_right = 100.0
+margin_bottom = 16.0

@@ -4,9 +4,12 @@ onready var detector = $Detector
 
 var speed = 200  # speed in pixels/sec
 var velocity = Vector2.ZERO
-var health = 20
+var health = 20.0
+const MAX_HEALTH = 20.0
+var powerups := [0,0,0]
 
-signal shoot_bullet(direction)
+signal shoot_bullet(direction, speed, spin, scale)
+signal player_health(health)
 
 func get_input():
     velocity = Vector2.ZERO
@@ -28,14 +31,18 @@ func _physics_process(_delta):
 
 func _input(event):
 	if event.is_action_pressed('shoot'):
-		emit_signal('shoot_bullet', get_global_mouse_position() - global_position)
+		var scale = 1.0
+		if powerups[0] > 0:
+			scale = 2.0 if powerups[0] > 0 else 1.0
+			powerups[0] -= 1
+		emit_signal('shoot_bullet', get_global_mouse_position() - global_position, 200, 0, scale)
 	elif event.is_action_pressed('dodge'):
 		dodge()
 
 
 func _on_Detector_hit():
 	health -= 1
-	$CanvasLayer/Health.text = "Health %d" % health
+	emit_signal('player_health', health/MAX_HEALTH)
 
 func dodge() -> void:
 	if $DodgeCooldown.is_stopped():
@@ -47,3 +54,13 @@ func dodge() -> void:
 		detector.detecting = true
 		speed = 200
 		$Sprite.modulate.a = 1.0
+
+func powerup(effect) -> void:
+	match effect:
+		"BIG":
+			powerups[0] += 10
+		"SHOTGUN":
+			powerups[1] += 10
+		"DOUBLE":
+			for i in len(powerups):
+				powerups[i] *= 2

@@ -5,6 +5,8 @@ onready var enemy_bullet_spawner = $EnemyBulletSpawner
 onready var top_left = $TopLeft
 onready var bottom_right = $BottomRight
 onready var player = $Player
+onready var bar = $HUD/Bar
+
 
 export (Array, PackedScene) var enemies
 
@@ -18,8 +20,8 @@ func _ready():
 	player_bullet_spawner.set_bounding_box(boundary_rect)
 	enemy_bullet_spawner.set_bounding_box(boundary_rect)
 
-func _on_Player_shoot_bullet(direction: Vector2):
-	player_bullet_spawner.spawn_bullet(direction, Vector2.ZERO, 200, 0)
+func _on_Player_shoot_bullet(direction: Vector2, speed, spin, scale):
+	player_bullet_spawner.spawn_bullet(direction, Vector2.ZERO, speed, spin, scale)
 
 
 func _on_enemy_shoot_bullet(direction: Vector2, position: Vector2) -> void:
@@ -36,4 +38,7 @@ func _on_SpawnTimer_timeout():
 
 
 func _on_GlitchTimer_timeout():
-	pass # TODO: move glitch
+	pass # TODO: add glitch
+
+func _on_player_health(health: float) -> void:
+	bar.material.set_shader_param("amount", health)

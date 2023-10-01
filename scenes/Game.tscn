@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://assets/kenney_tiny-dungeon/enemy_projectile.tres" type="Texture" id=1]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
@@ -10,6 +10,9 @@
 [ext_resource path="res://assets/kenney_tiny-dungeon/player_projectile.tres" type="Texture" id=8]
 [ext_resource path="res://materials/glitch.gdshader" type="Shader" id=9]
 [ext_resource path="res://materials/crt.gdshader" type="Shader" id=10]
+[ext_resource path="res://scenes/Powerup.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/Bar.tscn" type="PackedScene" id=12]
+[ext_resource path="res://assets/health.png" type="Texture" id=13]
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
@@ -101,7 +104,7 @@ shader = ExtResource( 10 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 9 )
-shader_param/shake_power = 0.02
+shader_param/shake_power = 0.03
 shader_param/shake_rate = 0.8
 shader_param/shake_speed = 5.0
 shader_param/shake_block_size = 16.0
@@ -130,6 +133,7 @@ smoothing_enabled = true
 [node name="HUD" parent="." instance=ExtResource( 3 )]
 
 [node name="Label" type="Label" parent="HUD"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -144,7 +148,21 @@ align = 1
 valign = 1
 uppercase = true
 
-[node name="ColorRect" type="ColorRect" parent="HUD"]
+[node name="Bar" parent="HUD" instance=ExtResource( 12 )]
+margin_left = 100.0
+margin_top = 75.0
+margin_right = 250.0
+margin_bottom = 100.0
+
+[node name="HealthIcon" type="TextureRect" parent="HUD"]
+margin_left = 65.0
+margin_top = 72.0
+margin_right = 81.0
+margin_bottom = 88.0
+rect_scale = Vector2( 2, 2 )
+texture = ExtResource( 13 )
+
+[node name="CrtEffect" type="ColorRect" parent="HUD"]
 material = SubResource( 9 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -152,10 +170,10 @@ margin_right = 64.0
 margin_bottom = 57.0
 
 [node name="TopLeft" type="Position2D" parent="."]
-position = Vector2( -69, 0 )
+position = Vector2( -373, -184 )
 
 [node name="BottomRight" type="Position2D" parent="."]
-position = Vector2( 1220, 709 )
+position = Vector2( 1025, 710 )
 
 [node name="PlayerBulletSpawner" parent="." instance=ExtResource( 5 )]
 frames = [ ExtResource( 8 ) ]
@@ -181,6 +199,11 @@ margin_bottom = 271.0
 wait_time = 8.0
 autostart = true
 
+[node name="Powerup" parent="." instance=ExtResource( 11 )]
+position = Vector2( 200, 0 )
+effect = "BIG"
+
+[connection signal="player_health" from="Player" to="." method="_on_player_health"]
 [connection signal="shoot_bullet" from="Player" to="." method="_on_Player_shoot_bullet"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="GlitchTimer" to="." method="_on_GlitchTimer_timeout"]

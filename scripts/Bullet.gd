@@ -11,3 +11,4 @@ var layer : String = "front"
 var speed: float
 var spin: float
 var angular_velocity: float
+var scale: float

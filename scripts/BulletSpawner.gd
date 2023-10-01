@@ -68,7 +68,7 @@ func _draw() -> void:
 			bullet.animation_lifetime = 0.0
 			if bullet.image_offset >= max_images:
 				bullet.image_offset = 0
-		draw_set_transform(bullet.current_position - offset, bullet.movement_vector.angle() + PI/2 + bullet.spin, Vector2(4,4))
+		draw_set_transform(bullet.current_position - offset, bullet.movement_vector.angle() + PI/2 + bullet.spin, Vector2(4,4)*bullet.scale)
 		draw_texture(
 			frames[bullet.image_offset], 
 			Vector2(-8,-8)
@@ -83,24 +83,25 @@ func set_bounding_box(box: Rect2) -> void:
 	Physics2DServer.area_set_collision_layer(shared_area.get_rid(), layer)
 
 # Register a new bullet in the array with the optimization logic
-func spawn_bullet(i_movement: Vector2, pos: Vector2 = Vector2.ZERO, speed := 200, angular_velocity := 0) -> void:
+func spawn_bullet(i_movement: Vector2, pos: Vector2 = Vector2.ZERO, speed := 200, angular_velocity := 0, scale := 1.0) -> void:
 	
 	var bullet : Bullet = Bullet.new()
 	bullet.movement_vector = i_movement
 	bullet.speed = speed
 	bullet.angular_velocity = angular_velocity
+	bullet.scale = scale
 #	bullet.current_position  = origin.position
 	if pos == Vector2.ZERO:
 		bullet.current_position = spawner.position
 	else:
 		bullet.current_position = pos
 	
-	_configure_collision_for_bullet(bullet)
+	_configure_collision_for_bullet(bullet, scale)
 	
 	bullets.append(bullet)
 	
 # Adds the collision data to the bullet
-func _configure_collision_for_bullet(bullet: Bullet) -> void:
+func _configure_collision_for_bullet(bullet: Bullet, scale: float) -> void:
 	
 	# Define the shape's position
 	var used_transform := Transform2D(0, position)
@@ -108,7 +109,7 @@ func _configure_collision_for_bullet(bullet: Bullet) -> void:
 	  
 	# Create the shape
 	var _circle_shape = Physics2DServer.circle_shape_create()
-	Physics2DServer.shape_set_data(_circle_shape, 8)
+	Physics2DServer.shape_set_data(_circle_shape, 8 * scale)
 	
 	# Add the shape to the shared area
 	Physics2DServer.area_add_shape(
