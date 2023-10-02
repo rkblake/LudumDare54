@@ -142,11 +142,18 @@ func powerup(effect, strength) -> void:
 
 
 func gain_xp() -> void:
-	$OrbSound.play()
 	xp += 1
 	if xp >= MAX_XP:
+		$OrbSound.pitch_scale = 2
+		$OrbSound.play()
 		emit_signal('clear_glitches')
+		$LevelUpParticles.emitting = true
+		$OrbSound.play()
 		xp = 0
 		health = MAX_HEALTH
 		emit_signal('player_health', health/MAX_HEALTH)
+	else:
+		$OrbSound.pitch_scale = 1
+		$OrbSound.play()
+		
 	emit_signal('gain_xp', xp/MAX_XP)
