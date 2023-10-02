@@ -10,6 +10,8 @@ onready var bar_shadow = $HUD/MarginContainer/HealthGroup/BarShadow
 onready var xp_bar = $HUD/MarginContainer/XpGroup/XpBar
 onready var xp_bar_shadow = $HUD/MarginContainer/XpGroup/XpBarShadow
 onready var tile_map = $TileMap
+onready var crt_effect = $HUD/CrtEffect
+
 
 export (Array, PackedScene) var enemies
 export (Array, PackedScene) var powerups
@@ -25,6 +27,7 @@ const E = 2.71828
 func _ready():
 	randomize()
 	update_bounding_rects()
+	crt_effect.visible = Globals.options['crt_enabled']
 
 func _process(_delta):
 	if $EnemyGroup.get_child_count() == 0: # maybe wait a second before spawning a wave?

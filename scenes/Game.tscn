@@ -149,6 +149,7 @@ scale = Vector2( 4, 4 )
 z_index = -5
 texture = ExtResource( 17 )
 script = ExtResource( 18 )
+player_path = NodePath("../..")
 
 [node name="PlayerBulletSpawner" parent="." instance=ExtResource( 5 )]
 frames = [ ExtResource( 8 ) ]
