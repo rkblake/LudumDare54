@@ -24,11 +24,7 @@ const E = 2.71828
 
 func _ready():
 	randomize()
-	boundary_rect = Rect2(
-		top_left.position, bottom_right.position - top_left.position
-	)
-	player_bullet_spawner.set_bounding_box(boundary_rect)
-	enemy_bullet_spawner.set_bounding_box(boundary_rect)
+	update_bounding_rects()
 
 func _process(delta):
 	if $EnemyGroup.get_child_count() == 0:
@@ -42,6 +38,12 @@ func _on_Player_shoot_bullet(direction: Vector2, speed, spin, scale):
 func _on_enemy_shoot_bullet(direction: Vector2, position: Vector2) -> void:
 	enemy_bullet_spawner.spawn_bullet(direction, position, 150, 3)
 
+func update_bounding_rects():
+	boundary_rect = Rect2(
+		top_left.position, bottom_right.position - top_left.position
+	)
+	player_bullet_spawner.set_bounding_box(boundary_rect)
+	enemy_bullet_spawner.set_bounding_box(boundary_rect)
 
 func map_to_global(tile: Vector2) -> Vector2: return tile_map.to_global(tile_map.map_to_world(tile))
 

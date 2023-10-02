@@ -46,6 +46,8 @@ func _physics_process(_delta):
 #    look_at(get_global_mouse_position())
 	get_input()
 	velocity = move_and_slide(velocity)
+	
+	$ReadyParticles.emitting = true if $DodgeCooldown.is_stopped() else false
 
 
 func _input(event):
@@ -114,6 +116,7 @@ func _on_Detector_hit():
 
 func dodge() -> void:
 	if $DodgeCooldown.is_stopped():
+		$DashingParticles.emitting = true
 		$DodgeCooldown.start()
 		detector.detecting = false
 		speed = 350
@@ -122,18 +125,19 @@ func dodge() -> void:
 		detector.detecting = true
 		speed = 200
 		$Sprite.modulate.a = 1.0
+		$DashingParticles.emitting = false
 
 
-func powerup(effect) -> void:
+func powerup(effect, strength) -> void:
 	$PowerupSound.play()
 	match effect:
 		"BIG":
-			powerups[0] += 10
+			powerups[0] += 10 + strength * 10
 		"SHOTGUN":
-			powerups[1] += 10
+			powerups[1] += 10 + strength * 10
 		"DOUBLE":
 			for i in len(powerups):
-				powerups[i] *= 2
+				powerups[i] *= 2 + strength
 
 
 func gain_xp() -> void:
