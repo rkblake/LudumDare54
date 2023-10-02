@@ -5,10 +5,10 @@ onready var enemy_bullet_spawner = $EnemyBulletSpawner
 onready var top_left = $TopLeft
 onready var bottom_right = $BottomRight
 onready var player = $Player
-onready var bar = $HUD/Bar
-onready var bar_shadow = $HUD/BarShadow
-onready var xp_bar = $HUD/XpBar
-onready var xp_bar_shadow = $HUD/XpBarShadow
+onready var bar = $HUD/MarginContainer/HealthGroup/Bar
+onready var bar_shadow = $HUD/MarginContainer/HealthGroup/BarShadow
+onready var xp_bar = $HUD/MarginContainer/XpGroup/XpBar
+onready var xp_bar_shadow = $HUD/MarginContainer/XpGroup/XpBarShadow
 onready var tile_map = $TileMap
 
 export (Array, PackedScene) var enemies
@@ -26,8 +26,8 @@ func _ready():
 	randomize()
 	update_bounding_rects()
 
-func _process(delta):
-	if $EnemyGroup.get_child_count() == 0:
+func _process(_delta):
+	if $EnemyGroup.get_child_count() == 0: # maybe wait a second before spawning a wave?
 		$SpawnTimer.start()
 		spawn_wave()
 
@@ -54,13 +54,13 @@ func _on_SpawnTimer_timeout():
 func spawn_wave() -> void:
 	var num_enemies = min(12, floor(pow(2, wave/E)))
 	wave += 1
+	# 0 should be ground tiles
 	var possible_tiles = tile_map.get_used_cells_by_id(0)
 	var tile
 	print('spawning %d enemies' % num_enemies)
 	for i in num_enemies:
 		var enemy = enemies[randi() % len(enemies)].instance()
 		
-		 # 0 should be ground tiles
 		tile = possible_tiles[randi() % len(possible_tiles)]
 		while(player.global_position.distance_squared_to(map_to_global(tile)) < 200):
 			tile = possible_tiles[randi() % len(possible_tiles)]
@@ -87,20 +87,23 @@ func spawn_wave() -> void:
 
 func _on_GlitchTimer_timeout():
 	var glitch = glitch_scene.instance()
-	glitch.position = Vector2((randi() % int(top_left.position.x - bottom_right.position.x))+top_left.position.x, (randi() % int(top_left.position.y - bottom_right.position.y))+top_left.position.y)
+	glitch.position = Vector2(
+		(randi() % int(top_left.position.x - bottom_right.position.x))+top_left.position.x,
+		(randi() % int(top_left.position.y - bottom_right.position.y))+top_left.position.y
+	) # TODO: switch to picking spot based on tilemap
 	$GlitchGroup.add_child(glitch)
 
 
 func _on_player_health(health: float) -> void:
 	bar.material.set_shader_param("amount", health)
 	bar_shadow.material.set_shader_param("amount", health)
-	$HUD/HealthNumber.text = "%02d/%02d" % [health*20, 20]
+	$HUD/MarginContainer/HealthGroup/HealthNumber.text = "%02d/%02d" % [health*20, 20]
 
 
 func _on_gain_xp(xp: float) -> void:
 	xp_bar.material.set_shader_param("amount", xp)
 	xp_bar_shadow.material.set_shader_param("amount", xp)
-	$HUD/XpNumber.text = "%02d/%02d" % [xp*20, 20]
+	$HUD/MarginContainer/XpGroup/XpNumber.text = "%02d/%02d" % [xp*20, 20]
 
 
 func _on_spawn_orb(position: Vector2) -> void:

@@ -167,24 +167,38 @@ layer = 16
 
 [node name="HUD" parent="." instance=ExtResource( 3 )]
 
-[node name="BarShadow" parent="HUD" instance=ExtResource( 12 )]
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 64
+custom_constants/margin_top = 64
+custom_constants/margin_left = 64
+custom_constants/margin_bottom = 64
+
+[node name="HealthGroup" type="Control" parent="HUD/MarginContainer"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 960.0
+margin_bottom = 536.0
+
+[node name="BarShadow" parent="HUD/MarginContainer/HealthGroup" instance=ExtResource( 12 )]
 material = SubResource( 10 )
-margin_left = 107.0
-margin_top = 83.0
-margin_right = 292.0
-margin_bottom = 118.0
+margin_left = 43.0
+margin_top = 19.0
+margin_right = 228.0
+margin_bottom = 54.0
 
-[node name="Bar" parent="HUD" instance=ExtResource( 12 )]
-margin_left = 100.0
-margin_top = 75.0
-margin_right = 285.0
-margin_bottom = 110.0
+[node name="Bar" parent="HUD/MarginContainer/HealthGroup" instance=ExtResource( 12 )]
+margin_left = 36.0
+margin_top = 11.0
+margin_right = 221.0
+margin_bottom = 46.0
 
-[node name="HealthNumber" type="Label" parent="HUD"]
-margin_left = 147.0
-margin_top = 82.0
-margin_right = 210.0
-margin_bottom = 96.0
+[node name="HealthNumber" type="Label" parent="HUD/MarginContainer/HealthGroup"]
+margin_left = 83.0
+margin_top = 18.0
+margin_right = 146.0
+margin_bottom = 32.0
 rect_scale = Vector2( 1.6, 1.6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
@@ -194,25 +208,39 @@ custom_fonts/font = ExtResource( 16 )
 text = "20/20"
 align = 1
 
-[node name="XpBarShadow" parent="HUD" instance=ExtResource( 12 )]
+[node name="HealthIcon" type="TextureRect" parent="HUD/MarginContainer/HealthGroup"]
+margin_left = -3.0
+margin_top = 14.0
+margin_right = 13.0
+margin_bottom = 30.0
+rect_scale = Vector2( 2.3, 2.3 )
+texture = ExtResource( 13 )
+
+[node name="XpGroup" type="Control" parent="HUD/MarginContainer"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 960.0
+margin_bottom = 536.0
+
+[node name="XpBarShadow" parent="HUD/MarginContainer/XpGroup" instance=ExtResource( 12 )]
 material = SubResource( 11 )
-margin_left = 592.0
-margin_top = 546.0
-margin_right = 992.0
-margin_bottom = 581.0
+margin_left = 528.0
+margin_top = 482.0
+margin_right = 928.0
+margin_bottom = 517.0
 
-[node name="XpBar" parent="HUD" instance=ExtResource( 12 )]
+[node name="XpBar" parent="HUD/MarginContainer/XpGroup" instance=ExtResource( 12 )]
 material = SubResource( 12 )
-margin_left = 585.0
-margin_top = 538.0
-margin_right = 985.0
-margin_bottom = 573.0
+margin_left = 521.0
+margin_top = 474.0
+margin_right = 921.0
+margin_bottom = 509.0
 
-[node name="XpNumber" type="Label" parent="HUD"]
-margin_left = 741.0
-margin_top = 546.0
-margin_right = 804.0
-margin_bottom = 560.0
+[node name="XpNumber" type="Label" parent="HUD/MarginContainer/XpGroup"]
+margin_left = 677.0
+margin_top = 482.0
+margin_right = 740.0
+margin_bottom = 496.0
 rect_scale = Vector2( 1.6, 1.6 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
@@ -222,21 +250,13 @@ custom_fonts/font = ExtResource( 16 )
 text = "00/20"
 align = 1
 
-[node name="OrbIcon" type="TextureRect" parent="HUD"]
-margin_left = 547.0
-margin_top = 542.0
-margin_right = 563.0
-margin_bottom = 558.0
+[node name="OrbIcon" type="TextureRect" parent="HUD/MarginContainer/XpGroup"]
+margin_left = 483.0
+margin_top = 478.0
+margin_right = 499.0
+margin_bottom = 494.0
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 15 )
-
-[node name="HealthIcon" type="TextureRect" parent="HUD"]
-margin_left = 61.0
-margin_top = 78.0
-margin_right = 77.0
-margin_bottom = 94.0
-rect_scale = Vector2( 2.3, 2.3 )
-texture = ExtResource( 13 )
 
 [node name="CrtEffect" type="ColorRect" parent="HUD"]
 material = SubResource( 9 )
@@ -266,5 +286,6 @@ autostart = true
 [connection signal="gain_xp" from="Player" to="." method="_on_gain_xp"]
 [connection signal="player_health" from="Player" to="." method="_on_player_health"]
 [connection signal="shoot_bullet" from="Player" to="." method="_on_Player_shoot_bullet"]
+[connection signal="resized" from="HUD/MarginContainer" to="HUD" method="_on_MarginContainer_resized"]
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="GlitchTimer" to="." method="_on_GlitchTimer_timeout"]

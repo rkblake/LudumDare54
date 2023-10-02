@@ -51,7 +51,7 @@ func _physics_process(_delta):
 
 
 func _input(event):
-	var scale = 1.0
+#	var scale = 1.0
 	if event.is_action_pressed('shoot'):
 		shoot_bullet(get_global_mouse_position() - global_position)
 	elif event.is_action_pressed('dodge'):
@@ -107,7 +107,8 @@ func damage_over_time(damage) -> void:
 func check_health() -> void:
 	if health <= 0:
 		get_tree().paused = true
-		print('you died')
+		yield(get_tree().create_timer(2), "timeout")
+		get_tree().change_scene("res://scenes/MainMenu.tscn")
 
 
 func _on_Detector_hit():
