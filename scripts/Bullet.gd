@@ -12,3 +12,4 @@ var speed: float
 var spin: float
 var angular_velocity: float
 var scale: float
+var pierce: bool

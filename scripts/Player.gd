@@ -14,7 +14,7 @@ const MAX_XP = 20.0
 
 var powerups := [0,0,0]
 
-signal shoot_bullet(direction, speed, spin, scale)
+signal shoot_bullet(direction, speed, spin, scale, pierce)
 signal player_health(health)
 signal gain_xp
 signal clear_glitches
@@ -70,14 +70,18 @@ func _input(event):
 func shoot_bullet(direction: Vector2) -> void:
 	var scale = 1.0
 	var num_shots = 1
+	var pierce = false
 	if powerups[0] > 0:
 		scale = 2.0
 		powerups[0] -= 1
 	if powerups[1] > 0:
 		num_shots = 3
 		powerups[1] -= 1
+	if powerups[2] > 0:
+		pierce = true
+		powerups[2] -= 1
 	for _i in num_shots:
-		emit_signal('shoot_bullet', direction.rotated(randf()*0.6-0.3), 200, 0, scale)
+		emit_signal('shoot_bullet', direction.rotated(randf()*0.6-0.3), 200, 0, scale, pierce)
 
 
 func hit(damage = 1.0) -> void:
@@ -139,6 +143,8 @@ func powerup(effect, strength) -> void:
 		"DOUBLE":
 			for i in len(powerups):
 				powerups[i] *= 2 + strength
+		"PIERCE":
+			powerups[2] += 10 + strength * 10
 
 
 func gain_xp() -> void:

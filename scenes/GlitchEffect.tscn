@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/glitch_particle-sheet.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 160, 160 )
+extents = Vector2( 120, 120 )
 
 [sub_resource type="CanvasItemMaterial" id=10]
 particles_animation = true
@@ -27,67 +27,67 @@ collision_mask = 6
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 160, 160 )
+position = Vector2( 120, 120 )
 shape = SubResource( 9 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 material = SubResource( 10 )
-position = Vector2( 0, 160 )
+position = Vector2( 0, 120 )
 lifetime = 2.0
 texture = ExtResource( 4 )
 emission_shape = 2
-emission_rect_extents = Vector2( 8, 160 )
+emission_rect_extents = Vector2( 8, 120 )
 direction = Vector2( 0, 0 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 10.0
 initial_velocity_random = 1.0
-scale_amount = 4.0
+scale_amount = 3.0
 anim_speed = 1.0
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
 material = SubResource( 10 )
-position = Vector2( 320, 160 )
+position = Vector2( 240, 120 )
 lifetime = 2.0
 texture = ExtResource( 4 )
 emission_shape = 2
-emission_rect_extents = Vector2( 8, 160 )
+emission_rect_extents = Vector2( 8, 120 )
 direction = Vector2( 0, 0 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 10.0
 initial_velocity_random = 1.0
-scale_amount = 4.0
+scale_amount = 3.0
 anim_speed = 1.0
 
 [node name="CPUParticles2D3" type="CPUParticles2D" parent="."]
 material = SubResource( 10 )
-position = Vector2( 160, 0 )
+position = Vector2( 120, 0 )
 lifetime = 2.0
 texture = ExtResource( 4 )
 emission_shape = 2
-emission_rect_extents = Vector2( 160, 8 )
+emission_rect_extents = Vector2( 120, 8 )
 direction = Vector2( 0, 0 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 10.0
 initial_velocity_random = 1.0
-scale_amount = 4.0
+scale_amount = 3.0
 anim_speed = 1.0
 
 [node name="CPUParticles2D4" type="CPUParticles2D" parent="."]
 material = SubResource( 10 )
-position = Vector2( 160, 320 )
+position = Vector2( 120, 240 )
 lifetime = 2.0
 texture = ExtResource( 4 )
 emission_shape = 2
-emission_rect_extents = Vector2( 160, 8 )
+emission_rect_extents = Vector2( 120, 8 )
 direction = Vector2( 0, 0 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 10.0
 initial_velocity_random = 1.0
-scale_amount = 4.0
+scale_amount = 3.0
 anim_speed = 1.0
 
 [node name="GlitchTexture" type="ColorRect" parent="."]

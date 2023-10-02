@@ -15,7 +15,7 @@ func _on_Detector_area_shape_entered(_area_id: RID, _area: Area2D, _area_shape: 
 		emit_signal('hit')
 		if player:
 			enemy_bullet_spawner.queue_free_bullet(_area_shape)
-		else:
+		elif !player and !player_bullet_spawner.is_bullet_pierce(_area_shape):
 			player_bullet_spawner.queue_free_bullet(_area_shape)
 		if iframes > 0:
 			detecting = false

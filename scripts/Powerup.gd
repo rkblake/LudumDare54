@@ -1,8 +1,8 @@
 extends Area2D
 
 var strength = 0
-const effects = [" BIG", "SHOTGUN", "DOUBLE"]
-export (String, "BIG", "SHOTGUN", "DOUBLE") var effect
+const effects = ["BIG", "SHOTGUN", "DOUBLE", "PIERCE"]
+export (String, "BIG", "SHOTGUN", "DOUBLE", "PIERCE") var effect
 
 
 func _ready():

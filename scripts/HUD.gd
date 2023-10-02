@@ -6,7 +6,7 @@ onready var score = $Score
 onready var high_score = $HighScore
 
 func _ready():
-	offset = Vector2(-crosshair.texture.get_width()/2.0, -crosshair.texture.get_width()/2.0)
+	offset = Vector2(-crosshair.texture.get_width(), -crosshair.texture.get_width())
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 
@@ -23,7 +23,7 @@ func _process(_delta):
 	high_score.text = "High Score: %d" % Globals.high_score
 
 
-const BOTTOM_RIGHT_OFFSET = Vector2(502, 125)
+const BOTTOM_RIGHT_OFFSET = Vector2(502, 155)
 func _on_MarginContainer_resized():
 	$MarginContainer/XpGroup/XpBar.rect_position = get_viewport().size - BOTTOM_RIGHT_OFFSET
 	$MarginContainer/XpGroup/XpBarShadow.rect_position = get_viewport().size - BOTTOM_RIGHT_OFFSET + Vector2(6,6)

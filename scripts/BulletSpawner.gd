@@ -83,13 +83,14 @@ func set_bounding_box(box: Rect2) -> void:
 	Physics2DServer.area_set_collision_layer(shared_area.get_rid(), layer)
 
 # Register a new bullet in the array with the optimization logic
-func spawn_bullet(i_movement: Vector2, pos: Vector2 = Vector2.ZERO, speed := 200, angular_velocity := 0, scale := 1.0) -> void:
+func spawn_bullet(i_movement: Vector2, pos: Vector2 = Vector2.ZERO, speed := 200, angular_velocity := 0, scale := 1.0, pierce = false) -> void:
 	
 	var bullet : Bullet = Bullet.new()
 	bullet.movement_vector = i_movement
 	bullet.speed = speed
 	bullet.angular_velocity = angular_velocity
 	bullet.scale = scale
+	bullet.pierce = pierce
 #	bullet.current_position  = origin.position
 	if pos == Vector2.ZERO:
 		bullet.current_position = spawner.position
@@ -124,3 +125,6 @@ func queue_free_bullet(area_idx: int) -> void:
 	var bullet = bullets[area_idx]
 	Physics2DServer.free_rid(bullet.shape_id)
 	bullets.erase(bullet)
+
+func is_bullet_pierce(idx) -> bool:
+	return bullets[idx].pierce

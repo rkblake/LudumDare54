@@ -8,8 +8,7 @@
 script = ExtResource( 2 )
 
 [node name="Crosshair" type="TextureRect" parent="."]
-margin_right = 64.0
-margin_bottom = 64.0
+rect_scale = Vector2( 2, 2 )
 mouse_filter = 2
 texture = ExtResource( 1 )
 
