@@ -21,3 +21,12 @@ func _input(event):
 func _process(_delta):
 	score.text = "Score: %d" % Globals.score
 	high_score.text = "High Score: %d" % Globals.high_score
+
+
+const BOTTOM_RIGHT_OFFSET = Vector2(502, 125)
+func _on_MarginContainer_resized():
+	$MarginContainer/XpGroup/XpBar.rect_position = get_viewport().size - BOTTOM_RIGHT_OFFSET
+	$MarginContainer/XpGroup/XpBarShadow.rect_position = get_viewport().size - BOTTOM_RIGHT_OFFSET + Vector2(6,6)
+	$MarginContainer/XpGroup/OrbIcon.rect_position = get_viewport().size - BOTTOM_RIGHT_OFFSET - Vector2(40,0)
+	$MarginContainer/XpGroup/XpNumber.rect_position = get_viewport().size - BOTTOM_RIGHT_OFFSET + Vector2(145,7)
+	
