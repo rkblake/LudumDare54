@@ -115,6 +115,7 @@ func create_dungeon_location():
 	dungeon_location.position = Vector2(136, 80)
 	dungeon_location.texture = load("res://icon.png")
 	dungeon_location.scale = Vector2(0.125, 0.125)
+	dungeon_location.visible = false
 	self.add_child(dungeon_location)
 
 func change_cell_data(cell : Vector2, new_tile_index : int) -> void:
