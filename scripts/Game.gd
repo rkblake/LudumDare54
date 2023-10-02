@@ -30,6 +30,11 @@ func _ready():
 	player_bullet_spawner.set_bounding_box(boundary_rect)
 	enemy_bullet_spawner.set_bounding_box(boundary_rect)
 
+func _process(delta):
+	if $EnemyGroup.get_child_count() == 0:
+		$SpawnTimer.start()
+		spawn_wave()
+
 func _on_Player_shoot_bullet(direction: Vector2, speed, spin, scale):
 	player_bullet_spawner.spawn_bullet(direction, Vector2.ZERO, speed, spin, scale)
 
@@ -45,7 +50,7 @@ func _on_SpawnTimer_timeout():
 
 
 func spawn_wave() -> void:
-	var num_enemies = min(20, floor(pow(2, wave/E)))
+	var num_enemies = min(12, floor(pow(2, wave/E)))
 	wave += 1
 	var possible_tiles = tile_map.get_used_cells_by_id(0)
 	var tile
@@ -87,11 +92,13 @@ func _on_GlitchTimer_timeout():
 func _on_player_health(health: float) -> void:
 	bar.material.set_shader_param("amount", health)
 	bar_shadow.material.set_shader_param("amount", health)
+	$HUD/HealthNumber.text = "%02d/%02d" % [health*20, 20]
 
 
 func _on_gain_xp(xp: float) -> void:
 	xp_bar.material.set_shader_param("amount", xp)
 	xp_bar_shadow.material.set_shader_param("amount", xp)
+	$HUD/XpNumber.text = "%02d/%02d" % [xp*20, 20]
 
 
 func _on_spawn_orb(position: Vector2) -> void:

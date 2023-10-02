@@ -109,7 +109,7 @@ func _configure_collision_for_bullet(bullet: Bullet, scale: float) -> void:
 	  
 	# Create the shape
 	var _circle_shape = Physics2DServer.circle_shape_create()
-	Physics2DServer.shape_set_data(_circle_shape, 8 * scale)
+	Physics2DServer.shape_set_data(_circle_shape, 12 * scale)
 	
 	# Add the shape to the shared area
 	Physics2DServer.area_add_shape(

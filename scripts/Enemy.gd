@@ -34,6 +34,7 @@ func _on_Detector_hit():
 
 func hit(damage = 1.0) -> void:
 	health -= damage
+	$AudioStreamPlayer.play()
 	$AnimationPlayer.play("hit_flash")
 	if health <= 0:
 		emit_signal('spawn_orb', global_position)
