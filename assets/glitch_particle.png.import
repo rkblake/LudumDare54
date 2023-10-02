@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/crosshair184.png-e6154a0e7340f80c28636b668a8c36c1.stex"
+path="res://.import/glitch_particle.png-77ca3c2a78c10cc9e9e59defa98cdb67.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/crosshair184.png"
-dest_files=[ "res://.import/crosshair184.png-e6154a0e7340f80c28636b668a8c36c1.stex" ]
+source_file="res://assets/glitch_particle.png"
+dest_files=[ "res://.import/glitch_particle.png-77ca3c2a78c10cc9e9e59defa98cdb67.stex" ]
 
 [params]
 

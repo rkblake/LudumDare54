@@ -118,3 +118,9 @@ func _configure_collision_for_bullet(bullet: Bullet, scale: float) -> void:
 	
 	# Register the generated id to the bullet
 	bullet.shape_id = _circle_shape
+
+func queue_free_bullet(area_idx: int) -> void:
+#	var shape = Physics2DServer.area_get_shape(shared_area.get_rid(), area_idx)
+	var bullet = bullets[area_idx]
+	Physics2DServer.free_rid(bullet.shape_id)
+	bullets.erase(bullet)
