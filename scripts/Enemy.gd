@@ -11,6 +11,10 @@ signal shoot_bullet(direction, bullet_position)
 signal spawn_orb(position)
 
 
+func _ready():
+	$Sprite.material = $Sprite.material.duplicate(true)
+
+
 func _physics_process(_delta):
 	var direction := player.global_position - global_position
 	velocity = move_and_slide(direction.normalized() * speed)
@@ -30,13 +34,17 @@ func _on_Detector_hit():
 
 func hit(damage = 1.0) -> void:
 	health -= damage
+	$AnimationPlayer.play("hit_flash")
 	if health <= 0:
 		emit_signal('spawn_orb', global_position)
+		Globals.add_score()
 		queue_free()
 
 
 func damage_over_time(damage) -> void:
 	health -= damage
+	$AnimationPlayer.play("hit_flash")
 	if health <= 0:
 		emit_signal('spawn_orb', global_position)
+		Globals.add_score()
 		queue_free()

@@ -85,6 +85,7 @@ func hit(damage = 1.0) -> void:
 		emit_signal('player_health', health/MAX_HEALTH)
 		$HurtSound.play()
 		invuln = true
+		$AnimationPlayer.play('hit_flash')
 		yield(get_tree().create_timer(0.5), "timeout")
 		invuln = false
 		
